@@ -10,16 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: vedantmgoyal9/setup-wsl2@main
-      - run: apt update && apt upgrade -y
+        with:        
+          distro: Alpine
+      - run: curl -fsSL https://ollama.com/install.sh | sh
         shell: wsl-run {0} # add this to run the commands inside linux
       - run: |
-          ls -al
-          env
-        shell: wsl-run {0} # don't forget to add this
-        env:
-          MY_ENV_VAR: MY_VALUE
-          # WSLENV is a special environment variable to share environment variables between windows and linux
-          # see https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows
-          WSLENV: MY_ENV_VAR
+          wsl --export Alpine ollama.tar
       - run: |
-          wsl --list
+          ls -la
